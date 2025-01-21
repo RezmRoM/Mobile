@@ -4,17 +4,17 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weather.components.CartItemCard
@@ -31,12 +31,12 @@ fun MyCartScreen(
             .fillMaxSize()
             .background(Background)
     ) {
-        // Column for header and cart items with horizontal padding
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp)
-                .align(Alignment.TopCenter)
+                .padding(bottom = 258.dp)
         ) {
             // Header
             Row(
@@ -68,7 +68,6 @@ fun MyCartScreen(
                     )
                 )
 
-                // Empty Box for centering the title
                 Box(modifier = Modifier.size(44.dp))
             }
 
@@ -84,39 +83,36 @@ fun MyCartScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Cart items
             CartItemCard(
                 title = "Nike Club Max",
-                price = "₽584.95",
+                currentPrice = "₽584.95",
                 quantity = 1,
-                onIncrement = { },
-                onDecrement = { },
-                onDelete = { }
+                onQuantityIncrease = { /* TODO */ },
+                onQuantityDecrease = { /* TODO */ },
+                onDelete = { /* TODO */ }
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             CartItemCard(
                 title = "Nike Air Max 200",
-                price = "₽94.05",
+                currentPrice = "₽94.05",
                 quantity = 1,
-                onIncrement = { },
-                onDecrement = { },
-                onDelete = { }
+                onQuantityIncrease = { /* TODO */ },
+                onQuantityDecrease = { /* TODO */ },
+                onDelete = { /* TODO */ }
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             CartItemCard(
                 title = "Nike Air Max 270 Essential",
-                price = "₽74.95",
+                currentPrice = "₽74.95",
                 quantity = 1,
-                onIncrement = { },
-                onDecrement = { },
-                onDelete = { }
+                onQuantityIncrease = { /* TODO */ },
+                onQuantityDecrease = { /* TODO */ },
+                onDelete = { /* TODO */ }
             )
-
-            Spacer(modifier = Modifier.weight(1f))
         }
 
         // Summary block at the bottom

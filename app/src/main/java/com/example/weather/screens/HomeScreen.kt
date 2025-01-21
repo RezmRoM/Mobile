@@ -19,6 +19,8 @@ import com.example.weather.components.BottomBar
 import com.example.weather.components.ProductCard
 import com.example.weather.ui.theme.*
 import com.example.weather.utils.AppIcons
+import androidx.navigation.NavController
+import com.example.weather.navigation.Screen
 
 @Composable
 fun HomeScreen(
@@ -28,7 +30,9 @@ fun HomeScreen(
     onFavoriteClick: () -> Unit,
     onNotificationClick: () -> Unit,
     onProfileClick: () -> Unit,
-    onSearchClick: () -> Unit
+    onSearchClick: () -> Unit,
+    onMenuClick: () -> Unit,
+    navController: NavController
 ) {
     Box(
         modifier = Modifier
@@ -53,7 +57,9 @@ fun HomeScreen(
                 Image(
                     painter = AppIcons.Menu(),
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable(onClick = onMenuClick)
                 )
                 
                 Text(
@@ -187,6 +193,7 @@ fun HomeScreen(
             ) {
                 ProductCard(
                     onCartClick = {},
+                    onDetailsClick = { navController.navigate(Screen.Details.route) },
                     rightIcon = {
                         Image(
                             painter = AppIcons.Plus(),
@@ -200,6 +207,7 @@ fun HomeScreen(
 
                 ProductCard(
                     onCartClick = onCartClick,
+                    onDetailsClick = { navController.navigate(Screen.Details.route) },
                     rightIcon = {
                         Image(
                             painter = AppIcons.Cart(),
@@ -251,11 +259,11 @@ fun HomeScreen(
                 .fillMaxWidth()
         ) {
             BottomBar(
-                onHomeClick = {},
-                onFavoriteClick = {},
+                onHomeClick = onHomeClick,
+                onFavoriteClick = onFavoriteClick,
                 onCartClick = onCartClick,
-                onNotificationClick = {},
-                onProfileClick = {},
+                onNotificationClick = onNotificationClick,
+                onProfileClick = onProfileClick,
                 modifier = Modifier.align(Alignment.BottomCenter)
             )
         }

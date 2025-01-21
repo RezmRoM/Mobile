@@ -7,6 +7,7 @@ import androidx.core.graphics.toColorInt
 val Text = Color(0xFF2B2B2B)
 val Background = Color(0xFFF7F7F9)
 val Hint = Color(0xFF6A6A6A)
+val SubText = Color(0xFF707B81)
 val SubTextDark = Color(0xFF707B81)
 val Accent = Color(0xFF48B2E7)
 val Block = Color(0xFFFFFFFF)

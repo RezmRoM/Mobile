@@ -15,13 +15,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.weather.components.ProductCard
+import com.example.weather.navigation.Screen
 import com.example.weather.ui.theme.*
 import com.example.weather.utils.AppIcons
 
 @Composable
 fun FavoriteScreen(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    navController: NavController
 ) {
     Column(
         modifier = Modifier
@@ -84,6 +87,7 @@ fun FavoriteScreen(
             items(8) {
                 ProductCard(
                     onCartClick = {},
+                    onDetailsClick = { navController.navigate(Screen.Details.route) },
                     rightIcon = {
                         Image(
                             painter = AppIcons.Plus(),

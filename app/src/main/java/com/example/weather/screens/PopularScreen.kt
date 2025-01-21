@@ -5,7 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,89 +20,99 @@ import androidx.compose.ui.unit.sp
 import com.example.weather.components.ProductCard
 import com.example.weather.ui.theme.*
 import com.example.weather.utils.AppIcons
+import androidx.navigation.NavController
+import com.example.weather.navigation.Screen
 
 @Composable
 fun PopularScreen(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    navController: NavController
 ) {
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Background)
-            .padding(horizontal = 20.dp)
     ) {
-        // Header
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxSize()
+                .padding(horizontal = 20.dp)
+                .verticalScroll(rememberScrollState())
         ) {
-            Box(
+            // Header
+            Row(
                 modifier = Modifier
-                    .size(44.dp)
-                    .background(Block, CircleShape),
-                contentAlignment = Alignment.Center
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = AppIcons.ChevronLeft(),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .background(Block, CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = AppIcons.ChevronLeft(),
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+
+                Text(
+                    text = "Популярное",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 16.sp,
+                        color = Text
+                    )
                 )
+
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .background(Block, CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = AppIcons.HeartOutline(),
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             }
 
-            Text(
-                text = "Популярное",
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontSize = 16.sp,
-                    color = Text
-                )
-            )
+            Spacer(modifier = Modifier.height(20.dp))
 
-            Box(
-                modifier = Modifier
-                    .size(44.dp)
-                    .background(Block, CircleShape),
-                contentAlignment = Alignment.Center
+            // Grid of ProductCards
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                horizontalArrangement = Arrangement.spacedBy(15.dp),
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                modifier = Modifier.weight(1f)
             ) {
-                Image(
-                    painter = AppIcons.HeartOutline(),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        // Grid of ProductCards
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(15.dp),
-            verticalArrangement = Arrangement.spacedBy(15.dp),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(8) {
-                ProductCard(
-                    onCartClick = {},
-                    rightIcon = {
-                        Image(
-                            painter = AppIcons.Plus(),
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp),
-                            colorFilter = ColorFilter.tint(Block)
-                        )
-                    },
-                    heartIcon = {
-                        Image(
-                            painter = AppIcons.HeartFilled(),
-                            contentDescription = null,
-                            modifier = Modifier.size(16.dp),
-                            colorFilter = ColorFilter.tint(Color(0xFFF87265))
-                        )
-                    }
-                )
+                items(8) {
+                    ProductCard(
+                        onCartClick = {},
+                        onDetailsClick = { navController.navigate(Screen.Details.route) },
+                        rightIcon = {
+                            Image(
+                                painter = AppIcons.Cart(),
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp),
+                                colorFilter = ColorFilter.tint(Block)
+                            )
+                        },
+                        heartIcon = {
+                            Image(
+                                painter = AppIcons.HeartFilled(),
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                                colorFilter = ColorFilter.tint(Color(0xFFF87265))
+                            )
+                        }
+                    )
+                }
             }
         }
     }

@@ -19,13 +19,14 @@ import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.ui.input.pointer.pointerInput
 
 @Composable
-fun CartItemCard(
+fun OrderCard(
+    orderNumber: String = "№ 325556516",
     title: String = "Nike Air Max 270 Essential",
-    currentPrice: String = "₽584.95",
-    quantity: Int = 1,
+    currentPrice: String = "$364.95",
+    oldPrice: String = "$260.00",
+    time: String = "7 мин назад",
     onDelete: () -> Unit = {},
-    onQuantityIncrease: () -> Unit = {},
-    onQuantityDecrease: () -> Unit = {},
+    onEmail: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var offsetX by remember { mutableStateOf(0f) }
@@ -38,7 +39,7 @@ fun CartItemCard(
             .fillMaxWidth()
             .height(105.dp)
     ) {
-        // Левый контейнер (для количества)
+        // Левый контейнер (для email)
         if (isSwipedRight) {
             Box(
                 modifier = Modifier
@@ -48,32 +49,12 @@ fun CartItemCard(
                     .background(Accent, RoundedCornerShape(8.dp)),
                 contentAlignment = Alignment.Center
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Image(
-                        painter = AppIcons.Plus(),
-                        contentDescription = "Увеличить",
-                        modifier = Modifier.size(24.dp),
-                        colorFilter = ColorFilter.tint(Block)
-                    )
-                    
-                    Text(
-                        text = quantity.toString(),
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontSize = 16.sp,
-                            color = Block
-                        )
-                    )
-                    
-                    Image(
-                        painter = AppIcons.Minus(),
-                        contentDescription = "Уменьшить",
-                        modifier = Modifier.size(24.dp),
-                        colorFilter = ColorFilter.tint(Block)
-                    )
-                }
+                Image(
+                    painter = AppIcons.Email(),
+                    contentDescription = "Email",
+                    modifier = Modifier.size(24.dp),
+                    colorFilter = ColorFilter.tint(Block)
+                )
             }
         }
 
@@ -113,11 +94,13 @@ fun CartItemCard(
                                     isSwipedRight = false
                                     offsetX = -10f
                                 }
+
                                 offsetX > swipeThreshold -> {
                                     isSwipedRight = true
                                     isSwipedLeft = false
                                     offsetX = 10f
                                 }
+
                                 else -> {
                                     isSwipedLeft = false
                                     isSwipedRight = false
@@ -164,8 +147,20 @@ fun CartItemCard(
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(top = 14.dp, bottom = 11.dp)
+                        .padding(top = 4.dp, bottom = 1.dp)
                 ) {
+                    if (!isSwipedLeft && !isSwipedRight) {
+                        Text(
+                            text = orderNumber,
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontSize = 14.sp,
+                                color = Accent
+                            )
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(9.dp))
+
                     Text(
                         text = title,
                         style = MaterialTheme.typography.bodyMedium.copy(
@@ -176,15 +171,39 @@ fun CartItemCard(
 
                     Spacer(modifier = Modifier.height(9.dp))
 
-                    Text(
-                        text = currentPrice,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontSize = 14.sp,
-                            color = Text
+                    Row {
+                        Text(
+                            text = currentPrice,
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontSize = 14.sp,
+                                color = Text
+                            )
                         )
-                    )
+
+                        if (!isSwipedLeft && !isSwipedRight) {
+                            Spacer(modifier = Modifier.width(39.dp))
+
+                            Text(
+                                text = oldPrice,
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    fontSize = 14.sp,
+                                    color = Hint
+                                )
+                            )
+                        }
+                    }
                 }
+            }
+            if (!isSwipedLeft && !isSwipedRight) {
+                Text(
+                    text = time,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 14.sp,
+                        color = Hint
+                    ),
+                    modifier = Modifier.padding(top = 10.dp, start = 270.dp).wrapContentHeight(Alignment.Top)
+                )
             }
         }
     }
-} 
+}

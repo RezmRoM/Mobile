@@ -96,7 +96,7 @@ object AppIcons {
     fun OrderingSuccess() = painterResource(id = R.drawable.ic_ordering_success)
 
     @Composable
-    fun BlueWhiteNike() = painterResource(id = R.drawable.ic_blue_white_nike)
+    fun BackgroundBlueWhiteNike() = painterResource(id = R.drawable.ic_background_blue_white_nike)
 
     @Composable
     fun OrangeNike() = painterResource(id = R.drawable.ic_orange_nike)
@@ -115,4 +115,16 @@ object AppIcons {
 
     @Composable
     fun BackgroundBNB() = painterResource(id = R.drawable.ic_background_bnb)
-} 
+
+    @Composable
+    fun UserProfile() = painterResource(id = R.drawable.ic_user_profile)
+
+    @Composable
+    fun HomeScreen() = painterResource(id = R.drawable.ic_home_screen)
+
+    @Composable
+    fun BarCode() = painterResource(id = R.drawable.ic_barcode)
+
+    @Composable
+    fun Done() = painterResource(id = R.drawable.ic_done)
+}

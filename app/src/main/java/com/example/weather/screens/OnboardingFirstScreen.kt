@@ -53,7 +53,7 @@ fun OnboardingFirstScreen(
             Spacer(modifier = Modifier.height(108.dp))
             
             Image(
-                painter = AppIcons.BlueWhiteNike(),
+                painter = AppIcons.BackgroundBlueWhiteNike(),
                 contentDescription = null,
                 modifier = Modifier.size(375.dp, 302.dp),
                 contentScale = ContentScale.Fit

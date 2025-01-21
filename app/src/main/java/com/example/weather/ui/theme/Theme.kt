@@ -11,7 +11,7 @@ private val LightColorScheme = lightColorScheme(
     primary = Accent,
     secondary = SubTextDark,
     tertiary = Red,
-    background = Block,
+    background = Background,
     surface = Block,
     onPrimary = Block,
     onSecondary = Block,
@@ -25,28 +25,18 @@ fun WeatherTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = LightColorScheme
-    
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = AppTypography,
-        content = {
-            SystemBarColors()
-            content()
-        }
-    )
-}
-
-@Composable
-private fun SystemBarColors() {
     val systemUiController = rememberSystemUiController()
-    val useDarkIcons = MaterialTheme.colorScheme.surface.red * 0.299 + 
-                      MaterialTheme.colorScheme.surface.green * 0.587 +
-                      MaterialTheme.colorScheme.surface.blue * 0.114 > 0.5
     
     SideEffect {
         systemUiController.setSystemBarsColor(
             color = Color.Transparent,
-            darkIcons = useDarkIcons
+            darkIcons = true
         )
     }
+    
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = AppTypography,
+        content = content
+    )
 }

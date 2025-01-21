@@ -19,14 +19,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weather.ui.theme.*
 import com.example.weather.utils.AppIcons
+import androidx.compose.foundation.clickable
 
 @Composable
 fun ProductCard(
     title: String = "Nike Air Max",
     label: String = "BEST SELLER",
     price: String = "₽752.00",
-    rightIcon: @Composable () -> Unit,
     onCartClick: () -> Unit,
+    onDetailsClick: () -> Unit,
     modifier: Modifier = Modifier,
     heartIcon: @Composable () -> Unit = { 
         Image(
@@ -35,14 +36,16 @@ fun ProductCard(
             modifier = Modifier.size(16.dp),
             colorFilter = ColorFilter.tint(Text)
         )
-    }
+    },
+    rightIcon: @Composable () -> Unit
 ) {
     Box(
-        modifier = modifier
+        modifier = Modifier
             .width(160.dp)
-            .height(220.dp)
-            .background(Block, RoundedCornerShape(12.dp))
-            .clip(RoundedCornerShape(12.dp))
+            .height(230.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(Block)
+            .clickable(onClick = onDetailsClick)
     ) {
         Column(
             modifier = Modifier
@@ -76,6 +79,7 @@ fun ProductCard(
                         fontWeight = FontWeight.Medium
                     )
                 )
+                
                 Spacer(modifier = Modifier.height(8.dp))
                 
                 Text(
@@ -95,15 +99,14 @@ fun ProductCard(
                 .align(Alignment.BottomCenter)
                 .padding(start = 9.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = price,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontSize = 14.sp,
                     color = Text,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
             )
 
