@@ -127,4 +127,16 @@ object AppIcons {
 
     @Composable
     fun Done() = painterResource(id = R.drawable.ic_done)
+
+    @Composable
+    fun NikeBlackGrey() = painterResource(id = R.drawable.ic_nike_black_grey)
+
+    @Composable
+    fun NikeOrange() = painterResource(id = R.drawable.ic_nike_orange)
+
+    @Composable
+    fun NikeWhiteBlue() = painterResource(id = R.drawable.ic_nike_white_blue)
+
+    @Composable
+    fun NikeWhiteRed() = painterResource(id = R.drawable.ic_nike_white_red)
 }

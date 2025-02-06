@@ -17,11 +17,22 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.weather.ui.theme.*
 import com.example.weather.utils.AppIcons
 import com.example.weather.utils.StringResources
 
+@Preview(showBackground = true)
+@Composable
+fun AuthorizationScreenPreview () {
+    AuthorizationScreen(
+        onBackClick = {},
+        onForgotPasswordClick = TODO(),
+        onRegisterClick = TODO(),
+        onLoginClick = TODO()
+    )
+}
 @Composable
 fun AuthorizationScreen(
     onBackClick: () -> Unit,

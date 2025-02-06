@@ -1,8 +1,10 @@
 package com.example.weather.screens
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -17,9 +19,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weather.ui.theme.*
@@ -31,6 +35,18 @@ fun DetailsScreen(
     onCartClick: () -> Unit,
     onAddToCartClick: () -> Unit
 ) {
+    var selectedImageIndex by remember { mutableStateOf(0) }
+    var isDescriptionExpanded by remember { mutableStateOf(false) }
+    
+    val nikeImages = listOf(
+        AppIcons.NikeOrange(),
+        AppIcons.NikeWhiteRed(),
+        AppIcons.NikeWhiteBlue(),
+        AppIcons.BlueNike(),
+        AppIcons.NikeBlackGrey(),
+        AppIcons.NikeOrange()
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -124,21 +140,44 @@ fun DetailsScreen(
                 )
             }
 
-            // Nike Section
+            // Nike Section with Swipe
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 14.dp, start = 12.dp, end = 12.dp)
             ) {
-                // Main Nike Image
-                Image(
-                    painter = AppIcons.BlueNike(),
-                    contentDescription = null,
+                var offsetX by remember { mutableStateOf(0f) }
+                
+                // Main Nike Image with Swipe Detection
+                Box(
                     modifier = Modifier
-                        .size(241.dp, 125.dp)
-                        .align(Alignment.TopCenter),
-                    contentScale = ContentScale.Fit
-                )
+                        .fillMaxWidth()
+                        .pointerInput(Unit) {
+                            detectHorizontalDragGestures(
+                                onDragEnd = {
+                                    if (offsetX < -50) {
+                                        selectedImageIndex = (selectedImageIndex + 1) % nikeImages.size
+                                    } else if (offsetX > 50) {
+                                        selectedImageIndex = if (selectedImageIndex > 0) selectedImageIndex - 1 else nikeImages.size - 1
+                                    }
+                                    offsetX = 0f
+                                },
+                                onDragCancel = { offsetX = 0f },
+                                onHorizontalDrag = { _, dragAmount ->
+                                    offsetX += dragAmount
+                                }
+                            )
+                        }
+                ) {
+                    Image(
+                        painter = nikeImages[selectedImageIndex],
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(241.dp, 125.dp)
+                            .align(Alignment.TopCenter),
+                        contentScale = ContentScale.Fit
+                    )
+                }
 
                 // Ellipse with Rectangle
                 Box(
@@ -207,8 +246,7 @@ fun DetailsScreen(
                             Image(
                                 painter = AppIcons.ChevronLeft(),
                                 contentDescription = null,
-                                modifier = Modifier
-                                    .rotate(180f),
+                                modifier = Modifier.rotate(180f),
                                 colorFilter = ColorFilter.tint(Block)
                             )
                         }
@@ -220,19 +258,24 @@ fun DetailsScreen(
 
             // Thumbnail Cards
             LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(14.dp)
             ) {
-                items(5) {
+                itemsIndexed(nikeImages) { index, image ->
                     Box(
                         modifier = Modifier
                             .size(56.dp)
-                            .background(Block, RoundedCornerShape(8.dp)),
+                            .background(Block, RoundedCornerShape(16.dp))
+                            .border(
+                                width = if (selectedImageIndex == index) 3.dp else 0.dp,
+                                color = if (selectedImageIndex == index) Accent else Color.Transparent,
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                            .clickable { selectedImageIndex = index },
                         contentAlignment = Alignment.Center
                     ) {
                         Image(
-                            painter = AppIcons.BlueNike(),
+                            painter = image,
                             contentDescription = null,
                             modifier = Modifier.size(40.dp),
                             contentScale = ContentScale.Fit
